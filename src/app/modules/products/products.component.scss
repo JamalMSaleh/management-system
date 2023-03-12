@@ -3,6 +3,8 @@
 :host {
   @extend .flex-column;
   row-gap: 1vh;
+  align-items: left;
+  justify-self: left;
 }
 
 .form {

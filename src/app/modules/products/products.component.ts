@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Observable, Subscription, filter } from 'rxjs';
+import { PagesName } from 'src/app/shared/enums/pages-name';
 import { ProductForm } from './shared/enums/product-form';
 import { Product, CreateProduct } from './shared/model/products.model';
 import { ProductFacade } from './store/products.facade';
@@ -17,6 +18,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public productFormGroup!: FormGroup;
   subscriptions: Subscription = new Subscription();
   productsData: Product[] = [];
+  pageNameEnum: typeof PagesName = PagesName;
   clonedProductsData?: Product;
   constructor(
     private readonly formBuilder: FormBuilder,
