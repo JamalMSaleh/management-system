@@ -1,6 +1,8 @@
+@import '../../../styles.scss';
 .container{
-  display: flex;
+  @extend .flex-row;
   justify-content: center;
   align-items: center;
   column-gap: 1vh;
+
 }

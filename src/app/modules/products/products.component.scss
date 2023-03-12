@@ -1,0 +1,33 @@
+@import '../../../styles.scss';
+
+:host {
+  @extend .flex-column;
+  row-gap: 1vh;
+}
+
+.form {
+  @extend .flex-column;
+  justify-content: center;
+  align-items: center;
+
+  .form-container {
+    @extend .flex-column;
+    border: 1px solid lightgrey;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border-radius: 20px;
+  }
+}
+
+.table {
+  ::ng-deep {
+    .p-datatable .p-datatable-thead>tr>th {
+      border: none;
+    }
+
+    .p-datatable .p-datatable-tbody>tr>td {
+      border: none;
+    }
+  }
+}
