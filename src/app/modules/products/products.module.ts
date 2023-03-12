@@ -14,12 +14,14 @@ import { ProductsEffect } from './store/products.effect';
 import { productsReducer } from './store/products.reducer';
 import { ProductFacade } from './store/products.facade';
 import { FormsModule } from '@angular/forms';
+import { ProgressBarModule } from 'primeng/progressbar';
 @NgModule({
   declarations: [
     ProductsComponent,
   ],
   imports: [
     ButtonModule,
+    ProgressBarModule,
     InputTextModule,
     ToastModule,
     TableModule,

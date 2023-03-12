@@ -1,0 +1,6 @@
+@import '../../../styles.scss';
+
+:host {
+  @extend .flex-column;
+  row-gap: 1vh;
+}

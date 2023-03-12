@@ -3,6 +3,7 @@ import { Actions, createEffect, CreateEffectMetadata, ofType } from "@ngrx/effec
 import { catchError, map, switchMap, of, tap } from "rxjs";
 import { OrganizationService } from "src/app/services/organization.service";
 import { ToastService } from "src/app/services/toast.service";
+import { OrdersFacade } from "../../orders/store/orders.facade";
 import { ActionTypes } from "../shared/enums/action-types";
 import { Organization, CreateOrganization } from "../shared/model/organization.model";
 import { deleteOrganization, deleteOrganizationError, deleteOrganizationSuccess, getOrganization, getOrganizationError, getOrganizations, getOrganizationsError, getOrganizationsSuccess, getOrganizationSuccess, postOrganization, postOrganizationError, postOrganizationSuccess, updateOrganization, updateOrganizationError, updateOrganizationSuccess } from "./organizations.action";
@@ -53,12 +54,21 @@ export class OrganizationsEffect {
       ofType(postOrganization),
       switchMap((action: { organization: CreateOrganization }) => this.organizationService.addOrganization(action.organization)),
       map((organization: Organization) => postOrganizationSuccess(organization)),
-      tap(() => {
-        this.toastService.addSuccessMessage(ActionTypes.PostOrganizationSuccess);
-      }),
       catchError(() => of(postOrganizationError())),
     ),
   );
+  // addOrganizationSuccess$: CreateEffectMetadata = createEffect(() => this.actions$.pipe(
+  //   ofType(postOrganizationSuccess),
+  //   tap(() => {
+  //     this.toastService.addSuccessMessage(ActionTypes.PostOrganizationSuccess);
+  //   }),
+  //   map((organization: Organization) => organization.orders),
+  //   map((orders: number[]) => {
+  //     orders.map((id: number) => {
+  //       this.orderFacade.(id);
+  //     });
+  //   }),
+  // ));
   addOrganizationError$: CreateEffectMetadata = createEffect(() =>
     this.actions$.pipe(
       ofType(getOrganizationsError),
@@ -114,6 +124,7 @@ export class OrganizationsEffect {
     private readonly actions$: Actions,
     private readonly organizationService: OrganizationService,
     private readonly toastService: ToastService,
+    private readonly orderFacade: OrdersFacade,
   ) { }
 
 }

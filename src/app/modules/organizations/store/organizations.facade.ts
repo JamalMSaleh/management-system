@@ -1,7 +1,7 @@
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { selectOrganizations, selectOrganizationsPending } from "./organizations.selector";
-import { deleteOrganization, getOrganization, getOrganizations, postOrganization } from './organizations.action';
+import { deleteOrganization, getOrganization, getOrganizations, postOrganization, updateOrganization } from './organizations.action';
 import { Injectable } from "@angular/core";
 import { Organization, CreateOrganization } from "../shared/model/organization.model";
 @Injectable()
@@ -22,5 +22,8 @@ export class OrganizationsFacade {
   }
   public addOrganization(organization: CreateOrganization): void {
     this.store.dispatch(postOrganization({ organization }));
+  }
+  public updateOrganization(organization: Organization): void {
+    this.store.dispatch(updateOrganization(organization));
   }
 }

@@ -1,1 +1,130 @@
-<p>organizations works!</p>
+<div class="header">
+  <button pButton pRipple type="button" style="width: 80px;" label="back" routerLink="/{{pageNameEnum.LandingPage}}"
+    class="p-button-danger"></button>
+  <p-progressBar mode="indeterminate" *ngIf="pendingState" [style]="{'height': '6px'}"
+    class="progress-bar"></p-progressBar>
+</div>
+<form class="form" [formGroup]="organizationFormGroup" (submit)="addOrganization();">
+  <div class="form-container">
+    <h2>Organizations</h2>
+    <span class="p-float-label">
+      <input id="Name" class="inputText" [formControlName]="organizationFormEnum.Name" type="text" pInputText />
+      <label for="Name">Name</label>
+    </span>
+    <span class="p-float-label">
+      <p-dropdown [options]="organizationTypes" [formControlName]="organizationFormEnum.OrganizationType"></p-dropdown>
+      <label for="Type">Type</label>
+    </span>
+    <span class="p-float-label">
+      <p-multiSelect id="productsDropdown" class="dropdown" [options]="productsData"
+        [formControlName]="organizationFormEnum.Products" optionLabel="category" optionValue="id">
+        <ng-template let-product pTemplate="item">
+          <div class="country-item">
+            <div>Id: {{product.id}}</div>
+            <div>Category: {{product.category}}</div>
+            <div>Variety: {{product.variety}}</div>
+            <div>Packaging: {{product.packaging}}</div>
+          </div>
+        </ng-template>
+      </p-multiSelect>
+      <label for="productsDropdown">Products</label>
+    </span>
+    <span class="p-float-label">
+      <input id="Orders" class="inputText" [formControlName]="organizationFormEnum.Orders" id="float-input" type="text"
+        pInputText />
+      <label for="Orders">Orders</label>
+    </span>
+    <p-button type="submit" label="Submit"></p-button>
+  </div>
+</form>
+<!-- <loader *ngIf=" Organizations$|async"></loader> -->
+<p-table class="table" styleClass="p-datatable-striped" [value]="organizationsData" dataKey="id" editMode="row"
+  [tableStyle]="{'min-width': '50rem'}">
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="id">{{organizationFormEnum.Id}}<p-sortIcon field="id"></p-sortIcon></th>
+      <th>{{organizationFormEnum.Name}}</th>
+      <th>{{organizationFormEnum.Products}}</th>
+      <th>{{organizationFormEnum.Orders}}</th>
+      <th>{{organizationFormEnum.OrganizationType}}</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-organization let-editing="editing" let-ri="rowIndex">
+    <tr [formGroup]="organizationEditFormGroup" [pEditableRow]="organization">
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <label>{{organization[ organizationFormEnum.Id]}}</label>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{organization[organizationFormEnum.Id ]}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input pInputText type="text" [formControlName]="organizationFormEnum.Name" required>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{organization[organizationFormEnum.Name]}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-multiSelect id="productsDropdown" class="dropdown" [options]="productsData"
+              [formControlName]="organizationFormEnum.Products" optionLabel="category" optionValue="id">
+              <ng-template let-product pTemplate="item">
+                <div class="country-item">
+                  <div>Id: {{product.id}}</div>
+                  <div>Category: {{product.category}}</div>
+                  <div>Variety: {{product.variety}}</div>
+                  <div>Packaging: {{product.packaging}}</div>
+                </div>
+              </ng-template>
+            </p-multiSelect>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{organization[organizationFormEnum.Products]}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input pInputText type="text" [formControlName]="organizationFormEnum.Orders" required>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{organization[organizationFormEnum.Orders]}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-dropdown [options]="organizationTypes"
+              [formControlName]="organizationFormEnum.OrganizationType"></p-dropdown>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{organization[organizationFormEnum.OrganizationType]}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <div class="flex align-items-center justify-content-center gap-2">
+          <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+            (click)="onRowEditInit(organization)" class="p-button-rounded p-button-text"></button>
+          <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-trash"
+            (click)="onRowDelete(organization)" class="p-button-rounded p-button-text"></button>
+          <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+            (click)="onRowEditSave()" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+          <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+            (click)="onRowEditCancel()" class="p-button-rounded p-button-text p-button-danger"></button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

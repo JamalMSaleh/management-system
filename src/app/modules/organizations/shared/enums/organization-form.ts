@@ -1,7 +1,7 @@
 export enum OrganizationForm {
   Id = 'id',
   Name = "name",
-  Type = "type",
+  OrganizationType = "organizationType",
   Products = "products",
   Orders = "orders",
 }

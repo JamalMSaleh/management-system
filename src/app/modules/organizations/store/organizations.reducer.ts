@@ -1,7 +1,7 @@
 import { Action, ActionReducer, createReducer, on } from "@ngrx/store";
 import { OrganizationsState } from "./organizations.state";
-import { deleteOrganization, deleteOrganizationSuccess, getOrganizations, getOrganizationsSuccess, postOrganization, postOrganizationSuccess, PropsOrganizations, updateOrganization, updateOrganizationSuccess } from "./organizations.action";
-import { Organization } from "../shared/model/organization.model";
+import { deleteOrganization, deleteOrganizationSuccess, getOrganizations, getOrganizationsSuccess, postOrganization, postOrganizationSuccess, updateOrganization, updateOrganizationSuccess } from "./organizations.action";
+import { Organization, PropsOrganizations } from "../shared/model/organization.model";
 
 export const organizationsInitialState: OrganizationsState = {
   organizations: [],
@@ -16,7 +16,7 @@ export const OrganizationsReducer: ActionReducer<OrganizationsState, Action> =
     })),
     on(getOrganizationsSuccess, (state: OrganizationsState, { organizations }: PropsOrganizations) => ({
       ...state,
-      Organizations: organizations,
+      organizations,
       pending: false,
     })),
     on(postOrganization, (state: OrganizationsState) => (
@@ -24,7 +24,7 @@ export const OrganizationsReducer: ActionReducer<OrganizationsState, Action> =
     )),
     on(postOrganizationSuccess, (state: OrganizationsState, organization: Organization) => {
       const newOrganizationsState: Organization[] = [...state.organizations, organization];
-      return { ...state, Organizations: newOrganizationsState, pending: false };
+      return { ...state, organizations: newOrganizationsState, pending: false };
     }),
     on(updateOrganization, (state: OrganizationsState) => ({
       ...state,

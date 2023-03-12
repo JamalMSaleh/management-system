@@ -13,11 +13,14 @@ import { ProductFacade } from './store/products.facade';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductsComponent implements OnInit, OnDestroy {
-  public productFormEnum: typeof ProductForm = ProductForm;
+  productFormEnum: typeof ProductForm = ProductForm;
   products$: Observable<Product[]> = this.productFacade.selectProducts$;
-  public productFormGroup!: FormGroup;
+  pending$: Observable<boolean> = this.productFacade.selectProductsPending$;
+  productFormGroup!: FormGroup;
+  productEditFormGroup!: FormGroup;
   subscriptions: Subscription = new Subscription();
   productsData: Product[] = [];
+  pendingState: boolean = false;
   pageNameEnum: typeof PagesName = PagesName;
   clonedProductsData?: Product;
   constructor(
@@ -30,23 +33,33 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.productFacade.getProducts();
+    this.initializeSubscriptions();
 
+    this.initializeForm();
+  }
+  initializeSubscriptions(): void {
     this.subscriptions.add(this.products$.pipe(
       filter((products: Product[]) => products.length > 0),
     ).subscribe((products?: Product[]) => {
       this.productsData = products !== undefined ? [...products] : [];
       this.ref.markForCheck();
     }));
-    this.initializeForm();
+    this.subscriptions.add(this.pending$.subscribe((state: boolean) => {
+      this.pendingState = state;
+      this.ref.markForCheck();
+    }));
   }
   initializeForm(): void {
     this.productFormGroup = this.formBuilder.group({
-      [this.productFormEnum.Category]: new FormControl('', Validators.required),
-      [this.productFormEnum.Packaging]: new FormControl(
-        '',
-        Validators.required,
-      ),
-      [this.productFormEnum.Variety]: new FormControl('', Validators.required),
+      [this.productFormEnum.Category]: ['', [Validators.required]],
+      [this.productFormEnum.Packaging]: ['', [Validators.required]],
+      [this.productFormEnum.Variety]: ['', [Validators.required]],
+    });
+    this.productEditFormGroup = this.formBuilder.group({
+      [this.productFormEnum.Id]: ['', [Validators.required]],
+      [this.productFormEnum.Category]: ['', [Validators.required]],
+      [this.productFormEnum.Packaging]: ['', [Validators.required]],
+      [this.productFormEnum.Variety]: ['', [Validators.required]],
     });
   }
   addProduct(): void {
@@ -56,13 +69,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
   }
   onRowEditInit(product: Product): void {
+    this.productEditFormGroup.patchValue({
+      ...product,
+    });
     this.clonedProductsData = { ...product };
   }
-  onRowEditSave(product: Product): void {
-    this.productFacade.updateProduct(product);
+  onRowEditSave(): void {
+    this.productFacade.updateProduct(this.productEditFormGroup.value);
+    this.productEditFormGroup.reset();
   }
-  onRowEditCancel(ri: number): void {
-    this.productsData[ri] = (<Product>this.clonedProductsData);
+  onRowEditCancel(): void {
+    this.productEditFormGroup.reset();
   }
   onRowDelete(product: Product): void {
     this.productFacade.deleteProduct(<number>product.id);

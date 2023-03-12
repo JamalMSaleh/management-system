@@ -1,11 +1,8 @@
 import { createAction, props } from "@ngrx/store";
 import { ActionCreatorPropsType, ActionCreatorType } from "src/app/shared/types/action.types";
 import { ActionTypes } from "../shared/enums/action-types";
-import { Organization, CreateOrganization } from "../shared/model/organization.model";
+import { Organization, CreateOrganization, PropsOrganizations } from "../shared/model/organization.model";
 
-export interface PropsOrganizations {
-  organizations: Organization[];
-}
 //this is needed since organization has a field called type
 
 //get Organizations

@@ -7,3 +7,6 @@ export interface CreateOrganization {
 export interface Organization extends CreateOrganization {
   id?: number;
 }
+export interface PropsOrganizations {
+  organizations: Organization[];
+}
