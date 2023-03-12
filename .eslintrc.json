@@ -1,0 +1,172 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "./tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "plugins": [
+        "@typescript-eslint",
+        "eslint-plugin-import",
+        "import",
+        "prefer-arrow",
+        "no-null",
+        "rxjs"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/ng-cli-compat",
+        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:rxjs/recommended"
+      ],
+      "settings": {
+        "import/external-module-folders": [
+          "../node_modules"
+        ]
+      },
+      "rules": {
+        "@angular-eslint/no-input-rename": [
+          "off"
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": [
+              "element",
+              "attribute"
+            ],
+            "prefix": "odd",
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "odd",
+            "style": "camelCase"
+          }
+        ],
+        "@typescript-eslint/no-shadow": [
+          "off"
+        ],
+        "@typescript-eslint/quotes": [
+          "off"
+        ],
+        "newline-before-return": [
+          "off"
+        ],
+        "comma-dangle": [
+          "error",
+          "always-multiline"
+        ],
+        "max-len": [
+          "off"
+        ],
+        "no-shadow": [
+          "off"
+        ],
+        "no-underscore-dangle": [
+          "warn"
+        ],
+        "no-multiple-empty-lines": [
+          "error",
+          {
+            "max": 1,
+            "maxEOF": 0,
+            "maxBOF": 0
+          }
+        ],
+        "class-methods-use-this": [
+          "warn"
+        ],
+        "rxjs/no-implicit-any-catch": [
+          "off"
+        ],
+        "@typescript-eslint/explicit-function-return-type": [
+          "warn",
+          {
+            "allowedNames": [
+              "ngOnChanges",
+              "ngOnInit",
+              "ngAfterViewInit",
+              "ngAfterContentInit",
+              "ngAfterContentChecked",
+              "ngAfterViewChecked",
+              "ngDoCheck",
+              "ngOnDestroy"
+            ],
+            "allowExpressions": true
+          }
+        ],
+        "@typescript-eslint/no-explicit-any": [
+          "error"
+        ],
+        "@typescript-eslint/no-inferrable-types": [
+          "off"
+        ],
+        "@typescript-eslint/prefer-readonly": [
+          "warn"
+        ],
+        "@typescript-eslint/consistent-type-assertions": [
+          "warn",
+          {
+            "assertionStyle": "angle-bracket"
+          }
+        ],
+        "@typescript-eslint/typedef": [
+          "error",
+          {
+            "arrayDestructuring": true,
+            "arrowParameter": true,
+            "memberVariableDeclaration": true,
+            "objectDestructuring": true,
+            "parameter": true,
+            "propertyDeclaration": true,
+            "variableDeclaration": true,
+            "variableDeclarationIgnoreFunction": false
+          }
+        ],
+        "@typescript-eslint/type-annotation-spacing": [
+          "error"
+        ],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "enumMember",
+            "format": [
+              "PascalCase"
+            ]
+          },
+          {
+            "selector": "enum",
+            "format": [
+              "PascalCase"
+            ]
+          }
+        ],
+        "@typescript-eslint/member-ordering": [
+          "warn"
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
+    }
+  ]
+}
