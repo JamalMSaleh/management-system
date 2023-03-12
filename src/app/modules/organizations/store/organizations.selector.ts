@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector, DefaultProjectorFn, MemoizedSelector } from "@ngrx/store";
-import { Organization } from "../shared/models/organization.model";
-import {  OrganizationsState } from "./organizations.state";
+import { Organization } from "../shared/model/organization.model";
+import { OrganizationsState } from "./organizations.state";
 
 export const selectOrganizationsFeature: MemoizedSelector<
   object,

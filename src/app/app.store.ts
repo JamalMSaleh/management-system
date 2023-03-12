@@ -1,8 +1,14 @@
 import { InjectionToken, Provider } from "@angular/core";
 import { ActionReducer, ActionReducerMap, combineReducers } from "@ngrx/store";
+import { ordersInitialState } from "./modules/orders/store/orders.reducer";
+import { organizationsInitialState } from "./modules/organizations/store/organizations.reducer";
+import { productsInitialState } from "./modules/products/store/products.reducer";
 import { Reducers, State, Shared } from "./shared/models/store.model";
 
 export const initialState: State = {
+  products: productsInitialState,
+  organizations: organizationsInitialState,
+  orders: ordersInitialState,
   shared: {
   },
 };

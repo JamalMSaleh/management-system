@@ -29,7 +29,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
   ngOnInit(): void {
-    this.getAllProduct();
+    this.productFacade.getProducts();
+
     this.subscriptions.add(this.products$.pipe(
       filter((products: Product[]) => products.length > 0),
     ).subscribe((products?: Product[]) => {
@@ -47,12 +48,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
       ),
       [this.productFormEnum.Variety]: new FormControl('', Validators.required),
     });
-  }
-  getAllProduct(): void {
-    this.productFacade.getProducts();
-  }
-  getAllClick(): void {
-    this.getAllProduct();
   }
   addProduct(): void {
     if (this.productFormGroup.valid) {

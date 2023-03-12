@@ -1,7 +1,7 @@
 import { Action, ActionReducer, createReducer, on } from "@ngrx/store";
-import {  OrganizationsState } from "./organizations.state";
-import { deleteOrganization, deleteOrganizationSuccess, getOrganizations, getOrganizationsSuccess, postOrganization, postOrganizationSuccess, PropsOrganization, PropsOrganizations, updateOrganization, updateOrganizationSuccess } from "./organizations.action";
-import { Organization } from "../shared/models/organization.model";
+import { OrganizationsState } from "./organizations.state";
+import { deleteOrganization, deleteOrganizationSuccess, getOrganizations, getOrganizationsSuccess, postOrganization, postOrganizationSuccess, PropsOrganizations, updateOrganization, updateOrganizationSuccess } from "./organizations.action";
+import { Organization } from "../shared/model/organization.model";
 
 export const organizationsInitialState: OrganizationsState = {
   organizations: [],
@@ -20,21 +20,21 @@ export const OrganizationsReducer: ActionReducer<OrganizationsState, Action> =
       pending: false,
     })),
     on(postOrganization, (state: OrganizationsState) => (
-      {...state, pending: true }
+      { ...state, pending: true }
     )),
-    on(postOrganizationSuccess, (state: OrganizationsState, organization: PropsOrganization) => {
-      const newOrganizationsState: Organization[] = [...state.organizations, organization.organization];
-      return {...state, Organizations: newOrganizationsState, pending: false };
+    on(postOrganizationSuccess, (state: OrganizationsState, organization: Organization) => {
+      const newOrganizationsState: Organization[] = [...state.organizations, organization];
+      return { ...state, Organizations: newOrganizationsState, pending: false };
     }),
     on(updateOrganization, (state: OrganizationsState) => ({
       ...state,
       pending: true,
     })),
-    on(updateOrganizationSuccess, (state: OrganizationsState, organization: PropsOrganization) => {
+    on(updateOrganizationSuccess, (state: OrganizationsState, organization: Organization) => {
       const newOrganizationsState: Organization[] = state.organizations.filter(
-        (_: Organization) => _.id !== organization.organization.id,
+        (_: Organization) => _.id !== organization.id,
       );
-      newOrganizationsState.push(organization.organization);
+      newOrganizationsState.push(organization);
       const newState: OrganizationsState = { ...state, organizations: newOrganizationsState, pending: false };
       return newState;
     }),

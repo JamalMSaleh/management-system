@@ -1,4 +1,4 @@
-import { Organization } from "../shared/models/organization.model";
+import { Organization } from "../shared/model/organization.model";
 
 export interface OrganizationsState {
   organizations: Organization[];
