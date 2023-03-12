@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PagesName } from '../shared/enums/pages-name';
+import { PagesName } from '../../shared/enums/pages-name';
 
 @Component({
   selector: 'odd-landing-page',

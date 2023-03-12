@@ -6,3 +6,9 @@ export interface CreateProduct {
   variety: string;
   packaging: string;
 }
+export interface PropsProducts {
+  products: Product[];
+}
+export interface Id {
+  id: number;
+}
