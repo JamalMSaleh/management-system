@@ -3,7 +3,8 @@ import { Actions, createEffect, CreateEffectMetadata, ofType } from "@ngrx/effec
 import { MessageService } from "primeng/api";
 import { switchMap, map, catchError, of, tap } from "rxjs";
 import { ProductService } from "src/app/services/products.service";
-import { ErrorMessages } from "../shared/enums/error-messages";
+import { ToastService } from "src/app/services/toast.service";
+import { ActionTypes } from "../shared/enums/action-types";
 import { Product } from "../shared/model/products.model";
 import { getProducts, getProductsSuccess, getProductsError, getProduct, getProductSuccess, getProductError, postProduct, postProductError, updateProduct, updateProductSuccess, updateProductError, deleteProduct, deleteProductSuccess, deleteProductError, postProductSuccess } from "./products.action";
 
@@ -24,7 +25,7 @@ export class ProductsEffect {
     this.actions$.pipe(
       ofType(getProductsError),
       tap(() => {
-        this.addErrorMessage(ErrorMessages.GetAllProductsError);
+        this.toastService.addErrorMessage(ActionTypes.GetProductsError);
       }),
     ),
     { dispatch: false },
@@ -34,6 +35,9 @@ export class ProductsEffect {
       ofType(getProduct),
       switchMap((action: { id: number }) => this.productService.getProductByKey(action.id)),
       map((element: Product) => getProductSuccess(element)),
+      tap(() => {
+        this.toastService.addSuccessMessage(ActionTypes.GetProductSuccess);
+      }),
       catchError(() => of(getProductError())),
     ),
   );
@@ -41,7 +45,7 @@ export class ProductsEffect {
     this.actions$.pipe(
       ofType(getProductError),
       tap(() => {
-        this.addErrorMessage(ErrorMessages.GetProductByKeyError);
+        this.toastService.addErrorMessage(ActionTypes.GetProductError);
       }),
     ),
     { dispatch: false },
@@ -51,6 +55,9 @@ export class ProductsEffect {
       ofType(postProduct),
       switchMap((action: Product) => this.productService.addProduct(action)),
       map((product: Product) => postProductSuccess(product)),
+      tap(() => {
+        this.toastService.addSuccessMessage(ActionTypes.PostProductSuccess);
+      }),
       catchError(() => of(postProductError())),
     ),
   );
@@ -58,7 +65,7 @@ export class ProductsEffect {
     this.actions$.pipe(
       ofType(postProductError),
       tap(() => {
-        this.addErrorMessage(ErrorMessages.AddProductError);
+        this.toastService.addErrorMessage(ActionTypes.PostProductError);
       }),
     ),
     { dispatch: false },
@@ -68,6 +75,9 @@ export class ProductsEffect {
       ofType(updateProduct),
       switchMap((action: Product) => this.productService.update(action)),
       map((product: Product) => updateProductSuccess(product)),
+      tap(() => {
+        this.toastService.addSuccessMessage(ActionTypes.UpdateProductSuccess);
+      }),
       catchError(() => of(updateProductError())),
     ),
   );
@@ -75,7 +85,7 @@ export class ProductsEffect {
     this.actions$.pipe(
       ofType(updateProductError),
       tap(() => {
-        this.addErrorMessage(ErrorMessages.UpdateProductError);
+        this.toastService.addErrorMessage(ActionTypes.UpdateProductError);
       }),
     ),
     { dispatch: false },
@@ -87,6 +97,9 @@ export class ProductsEffect {
       map((products: Product[]) =>
         deleteProductSuccess({ products }),
       ),
+      tap(() => {
+        this.toastService.addSuccessMessage(ActionTypes.DeleteProductSuccess);
+      }),
       catchError(() => of(deleteProductError())),
     ),
   );
@@ -94,7 +107,7 @@ export class ProductsEffect {
     this.actions$.pipe(
       ofType(deleteProductError),
       tap(() => {
-        this.addErrorMessage(ErrorMessages.DeleteProductError);
+        this.toastService.addErrorMessage(ActionTypes.DeleteProductError);
       }),
     ),
     { dispatch: false },
@@ -102,16 +115,6 @@ export class ProductsEffect {
   constructor(
     private readonly actions$: Actions,
     private readonly productService: ProductService,
-    private readonly messageService: MessageService) { }
+    private readonly toastService: ToastService) { }
 
-  private addErrorMessage(detail: string): void {
-    this.messageService.add(
-      {
-        key: 'Error', severity: 'error', summary: 'Error', detail,
-        life: 9999999,
-        sticky: true,
-        closable: true,
-      },
-    );
-  }
 }

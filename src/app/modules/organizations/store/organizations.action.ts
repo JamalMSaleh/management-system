@@ -22,7 +22,7 @@ export const getOrganizationSuccess: ActionCreatorPropsType<ActionTypes.GetOrgan
 export const getOrganizationError: ActionCreatorType<ActionTypes.GetOrganizationError> = createAction(ActionTypes.GetOrganizationError);
 
 //update Organization
-export const updateOrganization: ActionCreatorPropsType<ActionTypes.UpdateOrganization, Organization> = createAction(ActionTypes.UpdateOrganization, props<Organization>());
+export const updateOrganization: ActionCreatorPropsType<ActionTypes.UpdateOrganization, CreateOrganization> = createAction(ActionTypes.UpdateOrganization, props<CreateOrganization>());
 export const updateOrganizationSuccess: ActionCreatorPropsType<ActionTypes.UpdateOrganizationSuccess, Organization> = createAction(
   ActionTypes.UpdateOrganizationSuccess,
   props<Organization>(),

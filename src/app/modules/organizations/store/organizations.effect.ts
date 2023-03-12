@@ -1,6 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, CreateEffectMetadata, ofType } from "@ngrx/effects";
-import { catchError, map, switchMap, of } from "rxjs";
+import { catchError, map, switchMap, of, tap } from "rxjs";
+import { OrganizationService } from "src/app/services/organization.service";
+import { ToastService } from "src/app/services/toast.service";
+import { ActionTypes } from "../shared/enums/action-types";
+import { Organization, CreateOrganization } from "../shared/model/organization.model";
 import { deleteOrganization, deleteOrganizationError, deleteOrganizationSuccess, getOrganization, getOrganizationError, getOrganizations, getOrganizationsError, getOrganizationsSuccess, getOrganizationSuccess, postOrganization, postOrganizationError, postOrganizationSuccess, updateOrganization, updateOrganizationError, updateOrganizationSuccess } from "./organizations.action";
 @Injectable()
 export class OrganizationsEffect {
@@ -14,29 +18,75 @@ export class OrganizationsEffect {
       catchError(() => of(getOrganizationsError())),
     ),
   );
+  getAllOrganizationsError$: CreateEffectMetadata = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getOrganizationsError),
+      tap(() => {
+        this.toastService.addErrorMessage(ActionTypes.GetOrganizationsError);
+      }),
+    ),
+    { dispatch: false },
+  );
   getOrganizationByKey$: CreateEffectMetadata = createEffect(() =>
     this.actions$.pipe(
       ofType(getOrganization),
       switchMap((action: { id: number }) => this.organizationService.getOrganizationByKey(action.id)),
       map((organization: Organization) => getOrganizationSuccess({ organization })),
+      tap(() => {
+        this.toastService.addSuccessMessage(ActionTypes.GetOrganizationSuccess);
+      }),
       catchError(() => of(getOrganizationError())),
     ),
+  );
+
+  getOrganizationByKeyError$: CreateEffectMetadata = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getOrganizationsError),
+      tap(() => {
+        this.toastService.addErrorMessage(ActionTypes.GetOrganizationError);
+      }),
+    ),
+    { dispatch: false },
   );
   addOrganization$: CreateEffectMetadata = createEffect(() =>
     this.actions$.pipe(
       ofType(postOrganization),
       switchMap((action: { organization: CreateOrganization }) => this.organizationService.addOrganization(action.organization)),
-      map((organization: Organization) => postOrganizationSuccess({ organization })),
+      map((organization: Organization) => postOrganizationSuccess(organization)),
+      tap(() => {
+        this.toastService.addSuccessMessage(ActionTypes.PostOrganizationSuccess);
+      }),
       catchError(() => of(postOrganizationError())),
     ),
+  );
+  addOrganizationError$: CreateEffectMetadata = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getOrganizationsError),
+      tap(() => {
+        this.toastService.addErrorMessage(ActionTypes.PostOrganizationError);
+      }),
+    ),
+    { dispatch: false },
   );
   updateOrganization$: CreateEffectMetadata = createEffect(() =>
     this.actions$.pipe(
       ofType(updateOrganization),
-      switchMap((action: { organization: Organization }) => this.organizationService.update(action.organization)),
-      map((organization: Organization) => updateOrganizationSuccess({ organization })),
+      switchMap((action: CreateOrganization) => this.organizationService.update(action)),
+      map((organization: Organization) => updateOrganizationSuccess(organization)),
+      tap(() => {
+        this.toastService.addSuccessMessage(ActionTypes.UpdateOrganizationSuccess);
+      }),
       catchError(() => of(updateOrganizationError())),
     ),
+  );
+  updateOrganizationError$: CreateEffectMetadata = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getOrganizationsError),
+      tap(() => {
+        this.toastService.addErrorMessage(ActionTypes.UpdateOrganizationError);
+      }),
+    ),
+    { dispatch: false },
   );
   deleteOrganization$: CreateEffectMetadata = createEffect(() =>
     this.actions$.pipe(
@@ -45,12 +95,25 @@ export class OrganizationsEffect {
       map((organizations: Organization[]) =>
         deleteOrganizationSuccess({ organizations }),
       ),
+      tap(() => {
+        this.toastService.addSuccessMessage(ActionTypes.DeleteOrganizationSuccess);
+      }),
       catchError(() => of(deleteOrganizationError())),
     ),
+  );
+  deleteOrganizationError$: CreateEffectMetadata = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getOrganizationsError),
+      tap(() => {
+        this.toastService.addErrorMessage(ActionTypes.DeleteOrganizationError);
+      }),
+    ),
+    { dispatch: false },
   );
   constructor(
     private readonly actions$: Actions,
     private readonly organizationService: OrganizationService,
+    private readonly toastService: ToastService,
   ) { }
 
 }
