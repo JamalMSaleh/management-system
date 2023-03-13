@@ -1,7 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Observable, Subscription, filter } from 'rxjs';
+import { Observable, Subscription, filter, combineLatest, combineLatestAll, map, distinctUntilChanged } from 'rxjs';
+import { ToastService } from 'src/app/services/toast.service';
 import { PagesName } from 'src/app/shared/enums/pages-name';
+import { Order, Product as OrderProduct } from '../orders/shared/model/order.model';
+import { OrdersFacade } from '../orders/store/orders.facade';
+import { Organization } from '../organizations/shared/model/organization.model';
+import { OrganizationsFacade } from '../organizations/store/organizations.facade';
+import { ErrorMessage } from './shared/enums/error-message';
 import { ProductForm } from './shared/enums/product-form';
 import { Product, CreateProduct } from './shared/model/products.model';
 import { ProductFacade } from './store/products.facade';
@@ -15,24 +21,35 @@ import { ProductFacade } from './store/products.facade';
 export class ProductsComponent implements OnInit, OnDestroy {
   productFormEnum: typeof ProductForm = ProductForm;
   products$: Observable<Product[]> = this.productFacade.selectProducts$;
-  pending$: Observable<boolean> = this.productFacade.selectProductsPending$;
+  organizations$: Observable<Organization[]> = this.organizationFacade.selectOrganizations$;
+  orders$: Observable<Order[]> = this.ordersFacade.selectOrders$;
+  pendingOrganization$: Observable<boolean> = this.organizationFacade.selectOrganizationsPending$;
+  pendingOrder$: Observable<boolean> = this.ordersFacade.selectOrdersPending$;
+  pendingProduct$: Observable<boolean> = this.productFacade.selectProductsPending$;
   productFormGroup!: FormGroup;
   productEditFormGroup!: FormGroup;
   subscriptions: Subscription = new Subscription();
   productsData: Product[] = [];
-  pendingState: boolean = false;
+  organizationsData: Organization[] = [];
+  ordersData: Order[] = [];
+  pendingState: Observable<boolean> = new Observable();
   pageNameEnum: typeof PagesName = PagesName;
   clonedProductsData?: Product;
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly productFacade: ProductFacade,
+    private readonly organizationFacade: OrganizationsFacade,
+    private readonly ordersFacade: OrdersFacade,
     private readonly ref: ChangeDetectorRef,
+    private readonly toastService: ToastService,
   ) { }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
   ngOnInit(): void {
     this.productFacade.getProducts();
+    this.organizationFacade.getOrganizations();
+    // this.ordersFacade.getOrders();
     this.initializeSubscriptions();
 
     this.initializeForm();
@@ -44,10 +61,21 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.productsData = products !== undefined ? [...products] : [];
       this.ref.markForCheck();
     }));
-    this.subscriptions.add(this.pending$.subscribe((state: boolean) => {
-      this.pendingState = state;
+    this.subscriptions.add(this.orders$.pipe(
+      filter((orders: Order[]) => orders.length > 0),
+    ).subscribe((orders?: Order[]) => {
+      this.ordersData = orders !== undefined ? [...orders] : [];
       this.ref.markForCheck();
     }));
+    this.subscriptions.add(this.organizations$.pipe(
+      filter((organization: Organization[]) => organization.length > 0),
+    ).subscribe((organization?: Organization[]) => {
+      this.organizationsData = organization !== undefined ? [...organization] : [];
+      this.ref.markForCheck();
+    }));
+    this.pendingState = combineLatest([this.pendingOrder$, this.pendingOrganization$, this.pendingProduct$]).pipe(map(([a, b, c]: boolean[]) => a || b || c),
+      distinctUntilChanged(),
+    );
   }
   initializeForm(): void {
     this.productFormGroup = this.formBuilder.group({
@@ -82,6 +110,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.productEditFormGroup.reset();
   }
   onRowDelete(product: Product): void {
-    this.productFacade.deleteProduct(<number>product.id);
+    if (this.checkDeleteDependencyValidity(<number>product.id)) {
+      this.productFacade.deleteProduct(<number>product.id);
+    }
+  }
+  checkDeleteDependencyValidity(id: number): boolean {
+    const organizationState: boolean = this.organizationsData.some((organization: Organization) => organization.products.includes(id));
+    const orderState: boolean = this.ordersData.some((order: Order) => (order.products.some((product: OrderProduct) => product.id === id)));
+    if (organizationState || orderState) {
+      this.toastService.addWarnMessage(ErrorMessage.ProductNotDeletable);
+      return false;
+    }
+    return true;
   }
 }

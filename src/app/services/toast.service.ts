@@ -21,4 +21,11 @@ export class ToastService {
       },
     );
   }
+  public addWarnMessage(detail: string): void {
+    this.messageService.add(
+      {
+        key: this.key, severity: 'warn', summary: 'Warn', detail,
+      },
+    );
+  }
 }

@@ -1,7 +1,7 @@
 <div class="header">
   <button pButton pRipple type="button" style="width: 80px;" label="back" routerLink="/{{pageNameEnum.LandingPage}}"
     class="p-button-danger"></button>
-  <p-progressBar mode="indeterminate" *ngIf="pendingState" [style]="{'height': '6px'}"
+  <p-progressBar mode="indeterminate" *ngIf="pendingState|async" [style]="{'height': '6px'}"
     class="progress-bar"></p-progressBar>
 </div>
 <form class="form" [formGroup]="organizationFormGroup" (submit)="addOrganization();">

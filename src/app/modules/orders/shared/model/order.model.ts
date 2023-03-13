@@ -7,7 +7,7 @@ export interface Order extends CreateOrder {
   id?: number;
 }
 
-interface Product {
+export interface Product {
   id: number;
   volume: number;
   pricePerUnit: number;

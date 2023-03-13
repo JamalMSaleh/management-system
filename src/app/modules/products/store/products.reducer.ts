@@ -6,7 +6,7 @@ export const productsInitialState: ProductsState = {
   products: [],
   pending: false,
 };
-export const productsReducer: ActionReducer<ProductsState, Action> =
+export const ProductsReducer: ActionReducer<ProductsState, Action> =
   createReducer(
     productsInitialState,
     on(getProducts, (state: ProductsState) => ({

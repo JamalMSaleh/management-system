@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { filter, Observable, Subscription } from 'rxjs';
+import { combineLatest, distinctUntilChanged, filter, map, Observable, Subscription } from 'rxjs';
 import { PagesName } from 'src/app/shared/enums/pages-name';
+import { Order } from '../orders/shared/model/order.model';
+import { OrdersFacade } from '../orders/store/orders.facade';
 import { Product } from '../products/shared/model/products.model';
 import { ProductFacade } from '../products/store/products.facade';
 import { OrganizationForm } from './shared/enums/organization-form';
@@ -17,9 +19,12 @@ import { OrganizationsFacade } from './store/organizations.facade';
 })
 export class OrganizationsComponent implements OnInit, OnDestroy {
   organizationFormEnum: typeof OrganizationForm = OrganizationForm;
-  organizations$: Observable<Organization[]> = this.organizationFacade.selectOrganizations$;
   products$: Observable<Product[]> = this.productFacade.selectProducts$;
-  pending$: Observable<boolean> = this.organizationFacade.selectOrganizationsPending$;
+  organizations$: Observable<Organization[]> = this.organizationFacade.selectOrganizations$;
+  orders$: Observable<Order[]> = this.ordersFacade.selectOrders$;
+  pendingOrganization$: Observable<boolean> = this.organizationFacade.selectOrganizationsPending$;
+  pendingOrder$: Observable<boolean> = this.ordersFacade.selectOrdersPending$;
+  pendingProduct$: Observable<boolean> = this.productFacade.selectProductsPending$;
   pageNameEnum: typeof PagesName = PagesName;
   organizationFormGroup!: FormGroup;
   organizationEditFormGroup!: FormGroup;
@@ -27,12 +32,14 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   organizationTypes: string[] = [OrganizationType.Buyer, OrganizationType.Seller];
   organizationsData: Organization[] = [];
   productsData: Product[] = [];
-  pendingState: boolean = false;
+  pendingState: Observable<boolean> = new Observable();
+  ordersData: Order[] = [];
   clonedOrganizationData?: Organization;
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly organizationFacade: OrganizationsFacade,
     private readonly productFacade: ProductFacade,
+    private readonly ordersFacade: OrdersFacade,
     private readonly ref: ChangeDetectorRef,
   ) { }
   ngOnDestroy(): void {
@@ -41,25 +48,32 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.organizationFacade.getOrganizations();
     this.productFacade.getProducts();
+    this.ordersFacade.getOrders();
     this.initializeSubscriptions();
     this.initializeForm();
   }
   initializeSubscriptions(): void {
+    this.subscriptions.add(this.products$.pipe(
+      filter((products: Product[]) => products.length > 0),
+    ).subscribe((products?: Product[]) => {
+      this.productsData = products !== undefined ? [...products] : [];
+      this.ref.markForCheck();
+    }));
+    this.subscriptions.add(this.orders$.pipe(
+      filter((orders: Order[]) => orders.length > 0),
+    ).subscribe((orders?: Order[]) => {
+      this.ordersData = orders !== undefined ? [...orders] : [];
+      this.ref.markForCheck();
+    }));
     this.subscriptions.add(this.organizations$.pipe(
-      filter((organizations: Organization[]) => organizations.length > 0),
-    ).subscribe((organizations: Organization[]) => {
-      this.organizationsData = organizations !== undefined ? [...organizations] : [];
-      console.log(this.organizationsData);
+      filter((organization: Organization[]) => organization.length > 0),
+    ).subscribe((organization?: Organization[]) => {
+      this.organizationsData = organization !== undefined ? [...organization] : [];
       this.ref.markForCheck();
     }));
-    this.subscriptions.add(this.products$.subscribe((products: Product[]) => {
-      this.productsData = products;
-      this.ref.markForCheck();
-    }));
-    this.subscriptions.add(this.pending$.subscribe((state: boolean) => {
-      this.pendingState = state;
-      this.ref.markForCheck();
-    }));
+    this.pendingState = combineLatest([this.pendingOrder$, this.pendingOrganization$, this.pendingProduct$]).pipe(map(([a, b, c]: boolean[]) => a || b || c),
+      distinctUntilChanged(),
+    );
   }
   initializeForm(): void {
     this.organizationFormGroup = this.formBuilder.group({

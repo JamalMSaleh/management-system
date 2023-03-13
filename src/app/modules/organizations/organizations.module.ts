@@ -6,7 +6,7 @@ import { OrganizationsComponent } from './organizations.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ProductsEffect } from '../products/store/products.effect';
-import { productsReducer } from '../products/store/products.reducer';
+import { ProductsReducer } from '../products/store/products.reducer';
 import { OrganizationsEffect } from './store/organizations.effect';
 import { OrganizationsReducer } from './store/organizations.reducer';
 import { ButtonModule } from 'primeng/button';
@@ -36,7 +36,7 @@ import { OrdersReducer } from '../orders/store/orders.reducer';
     TableModule,
     CommonModule,
     StoreModule.forFeature('Organizations', OrganizationsReducer),
-    StoreModule.forFeature('Products', productsReducer),
+    StoreModule.forFeature('Products', ProductsReducer),
     StoreModule.forFeature('Orders', OrdersReducer),
     EffectsModule.forFeature([OrganizationsEffect, ProductsEffect, OrdersEffect]),
     OrganizationsRoutingModule,
