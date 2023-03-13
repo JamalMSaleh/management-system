@@ -53,9 +53,7 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
     this.initializeForm();
   }
   initializeSubscriptions(): void {
-    this.subscriptions.add(this.products$.pipe(
-      filter((products: Product[]) => products.length > 0),
-    ).subscribe((products?: Product[]) => {
+    this.subscriptions.add(this.products$.subscribe((products?: Product[]) => {
       this.productsData = products !== undefined ? [...products] : [];
       this.ref.markForCheck();
     }));
@@ -78,14 +76,14 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   initializeForm(): void {
     this.organizationFormGroup = this.formBuilder.group({
       [this.organizationFormEnum.Name]: ['', [Validators.required]],
-      [this.organizationFormEnum.Orders]: ['', [Validators.required]],
+      [this.organizationFormEnum.Orders]: ['', []],
       [this.organizationFormEnum.Products]: ['', [Validators.required]],
       [this.organizationFormEnum.OrganizationType]: [OrganizationType.Buyer, [Validators.required]],
     });
     this.organizationEditFormGroup = this.formBuilder.group({
       [this.organizationFormEnum.Id]: ['', [Validators.required]],
       [this.organizationFormEnum.Name]: ['', [Validators.required]],
-      [this.organizationFormEnum.Orders]: ['', [Validators.required]],
+      [this.organizationFormEnum.Orders]: ['', []],
       [this.organizationFormEnum.Products]: ['', [Validators.required]],
       [this.organizationFormEnum.OrganizationType]: ['', [Validators.required]],
     });

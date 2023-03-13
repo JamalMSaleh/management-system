@@ -48,3 +48,8 @@
 .p-dropdown {
   width: 197px
 }
+
+.p-datatable>.p-datatable-wrapper {
+  overflow: hidden !important;
+  min-height: 200px !important;
+}

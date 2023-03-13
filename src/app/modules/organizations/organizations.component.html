@@ -30,9 +30,16 @@
       <label for="productsDropdown">Products</label>
     </span>
     <span class="p-float-label">
-      <input id="Orders" class="inputText" [formControlName]="organizationFormEnum.Orders" id="float-input" type="text"
-        pInputText />
-      <label for="Orders">Orders</label>
+      <p-multiSelect id="ordersDropDown" class="dropdown" [options]="ordersData"
+        [formControlName]="organizationFormEnum.Orders" optionLabel="category" optionValue="id">
+        <ng-template let-Order pTemplate="item">
+          <div class="country-item">
+            <div>Id: {{Order.id}}</div>
+            <div>Category: {{Order.orderType}}</div>
+          </div>
+        </ng-template>
+      </p-multiSelect>
+      <label for="ordersDropDown">Orders</label>
     </span>
     <p-button type="submit" label="Submit"></p-button>
   </div>
@@ -95,7 +102,15 @@
       <td>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input pInputText type="text" [formControlName]="organizationFormEnum.Orders" required>
+            <p-multiSelect id="ordersDropDown" class="dropdown" [options]="ordersData"
+              [formControlName]="organizationFormEnum.Orders" optionLabel="category" optionValue="id">
+              <ng-template let-Order pTemplate="item">
+                <div class="country-item">
+                  <div>Id: {{Order.id}}</div>
+                  <div>Category: {{Order.orderType}}</div>
+                </div>
+              </ng-template>
+            </p-multiSelect>
           </ng-template>
           <ng-template pTemplate="output">
             {{organization[organizationFormEnum.Orders]}}
@@ -117,8 +132,8 @@
         <div class="flex align-items-center justify-content-center gap-2">
           <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
             (click)="onRowEditInit(organization)" class="p-button-rounded p-button-text"></button>
-          <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-trash"
-            (click)="onRowDelete(organization)" class="p-button-rounded p-button-text"></button>
+          <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-trash" (click)="onRowDelete(organization)"
+            class="p-button-rounded p-button-text"></button>
           <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
             (click)="onRowEditSave()" class="p-button-rounded p-button-text p-button-success mr-2"></button>
           <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"

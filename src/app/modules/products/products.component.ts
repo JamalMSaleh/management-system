@@ -49,16 +49,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.productFacade.getProducts();
     this.organizationFacade.getOrganizations();
-    // this.ordersFacade.getOrders();
+    this.ordersFacade.getOrders();
     this.initializeSubscriptions();
-
     this.initializeForm();
   }
   initializeSubscriptions(): void {
-    this.subscriptions.add(this.products$.pipe(
-      filter((products: Product[]) => products.length > 0),
-    ).subscribe((products?: Product[]) => {
+    this.subscriptions.add(this.products$.subscribe((products?: Product[]) => {
       this.productsData = products !== undefined ? [...products] : [];
+      console.log(this.productsData);
       this.ref.markForCheck();
     }));
     this.subscriptions.add(this.orders$.pipe(
@@ -114,6 +112,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.productFacade.deleteProduct(<number>product.id);
     }
   }
+  //improvement: in these organizations add a link in the message to which organization or order it belongs with its ID
   checkDeleteDependencyValidity(id: number): boolean {
     const organizationState: boolean = this.organizationsData.some((organization: Organization) => organization.products.includes(id));
     const orderState: boolean = this.ordersData.some((order: Order) => (order.products.some((product: OrderProduct) => product.id === id)));
