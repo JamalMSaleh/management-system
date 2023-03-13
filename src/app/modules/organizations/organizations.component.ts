@@ -53,7 +53,9 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
     this.initializeForm();
   }
   initializeSubscriptions(): void {
-    this.subscriptions.add(this.products$.subscribe((products?: Product[]) => {
+    this.subscriptions.add(this.products$.pipe(
+      filter((products: Product[]) => products.length > 0),
+    ).subscribe((products?: Product[]) => {
       this.productsData = products !== undefined ? [...products] : [];
       this.ref.markForCheck();
     }));
@@ -63,9 +65,7 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
       this.ordersData = orders !== undefined ? [...orders] : [];
       this.ref.markForCheck();
     }));
-    this.subscriptions.add(this.organizations$.pipe(
-      filter((organization: Organization[]) => organization.length > 0),
-    ).subscribe((organization?: Organization[]) => {
+    this.subscriptions.add(this.organizations$.subscribe((organization?: Organization[]) => {
       this.organizationsData = organization !== undefined ? [...organization] : [];
       this.ref.markForCheck();
     }));
