@@ -16,7 +16,7 @@ export const OrdersReducer: ActionReducer<OrdersState, Action> =
     })),
     on(getOrdersSuccess, (state: OrdersState, { orders }: PropsOrders) => ({
       ...state,
-      Orders: orders,
+      orders,
       pending: false,
     })),
     on(postOrder, (state: OrdersState) => (
@@ -24,7 +24,7 @@ export const OrdersReducer: ActionReducer<OrdersState, Action> =
     )),
     on(postOrderSuccess, (state: OrdersState, order: Order) => {
       const newOrdersState: Order[] = [...state.orders, order];
-      return { ...state, Orders: newOrdersState, pending: false };
+      return { ...state, orders: newOrdersState, pending: false };
     }),
     on(updateOrder, (state: OrdersState) => ({
       ...state,

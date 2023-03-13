@@ -34,7 +34,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ordersData: Order[] = [];
   pendingState: Observable<boolean> = new Observable();
   pageNameEnum: typeof PagesName = PagesName;
-  clonedProductsData?: Product;
+  globalEditing: boolean = false;
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly productFacade: ProductFacade,
@@ -95,19 +95,22 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
   }
   onRowEditInit(product: Product): void {
+    this.globalEditing = true;
     this.productEditFormGroup.patchValue({
       ...product,
     });
-    this.clonedProductsData = { ...product };
   }
   onRowEditSave(): void {
+    this.globalEditing = false;
     this.productFacade.updateProduct(this.productEditFormGroup.value);
     this.productEditFormGroup.reset();
   }
   onRowEditCancel(): void {
+    this.globalEditing = false;
     this.productEditFormGroup.reset();
   }
   onRowDelete(product: Product): void {
+    this.globalEditing = false;
     if (this.checkDeleteDependencyValidity(<number>product.id)) {
       this.productFacade.deleteProduct(<number>product.id);
     }

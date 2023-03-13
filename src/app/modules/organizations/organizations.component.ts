@@ -34,7 +34,7 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   productsData: Product[] = [];
   pendingState: Observable<boolean> = new Observable();
   ordersData: Order[] = [];
-  clonedOrganizationData?: Organization;
+  globalEditing: boolean = false;
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly organizationFacade: OrganizationsFacade,
@@ -96,16 +96,20 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
     }
   }
   onRowEditInit(org: Organization): void {
+    this.globalEditing = true;
     this.organizationEditFormGroup.patchValue({ ...org });
   }
   onRowEditSave(): void {
+    this.globalEditing = false;
     this.organizationFacade.updateOrganization(this.organizationEditFormGroup.value);
     this.organizationEditFormGroup.reset();
   }
   onRowEditCancel(): void {
+    this.globalEditing = false;
     this.organizationEditFormGroup.reset();
   }
   onRowDelete(org: Organization): void {
+    this.globalEditing = false;
     this.organizationFacade.deleteOrganization(<number>org.id);
   }
 }

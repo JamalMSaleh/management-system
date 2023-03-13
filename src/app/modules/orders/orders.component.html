@@ -1,1 +1,194 @@
-<p>orders works!</p>
+<div class="header">
+  <button pButton pRipple type="button" style="width: 80px;" label="back" routerLink="/{{pageNameEnum.LandingPage}}"
+    class="p-button-danger"></button>
+  <p-progressBar mode="indeterminate" *ngIf="pendingState|async" [style]="{'height': '6px'}"
+    class="progress-bar"></p-progressBar>
+</div>
+<div class="body">
+  <form *ngIf="!globalEditing" class="form" [formGroup]="orderFormGroup" (submit)="addOrder();">
+    <div class="form-container">
+      <h3>Orders</h3>
+      <span class="p-float-label">
+        <p-dropdown id="OrderType" [options]="orderTypes" (onChange)="onOrderTypeChange()"
+          [formControlName]="orderFormEnum.OrderType"></p-dropdown>
+        <label for="OrderType">OrderType</label>
+      </span>
+      <div class="table-Container">
+        <h4>Order Products</h4>
+        <p-table [value]="currentProductsList" [tableStyle]="{'min-width': '5rem'}">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>{{orderProductFormEnum.Id}}</th>
+              <th>{{orderProductFormEnum.UnitPrice}}</th>
+              <th>{{orderProductFormEnum.Volume}}</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-ri="rowIndex" let-product>
+            <tr>
+              <td>{{product[orderProductFormEnum.Id]}}</td>
+              <td>{{product[orderProductFormEnum.UnitPrice]}}</td>
+              <td>{{product[orderProductFormEnum.Volume]}}</td>
+              <td>
+                <button pButton pRipple type="button" icon="pi pi-trash" (click)="onDeleteProduct(ri)"
+                  class="p-button-rounded p-button-text"></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <span class="p-float-label">
+        <p-dropdown id="OrganizationDropDown" class="dropdown" [options]="organizationsData"
+          [formControlName]="orderFormEnum.Organization" optionLabel="id" optionValue="id">
+          <ng-template let-organization pTemplate="item">
+            <div>
+              <div>Id: {{organization.id}}</div>
+              <div>Name: {{organization.name}}</div>
+              <div>OrganizationType: {{organization.organizationType}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+        <label for="OrganizationDropDown">Organization</label>
+      </span>
+      <p-button type="submit" label="Submit"></p-button>
+    </div>
+  </form>
+  <form class="form" [formGroup]="orderProductFormGroup" (submit)="addProduct();">
+    <div class="form-container">
+      <h4>Add Order Products</h4>
+      <span class="p-float-label">
+        <p-dropdown id="productsDropdown" class="dropdown" [options]="productsData"
+          [formControlName]="orderProductFormEnum.Id" optionLabel="id" optionValue="id">
+          <ng-template let-product pTemplate="item">
+            <div>
+              <div>Id: {{product.id}}</div>
+              <div>Category: {{product.category}}</div>
+              <div>Variety: {{product.variety}}</div>
+              <div>Packaging: {{product.packaging}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+        <label for="productsDropdown">Products</label>
+      </span>
+      <span class="p-float-label">
+        <input id="UnitPrice" class="inputText" [formControlName]="orderProductFormEnum.UnitPrice" type="text"
+          pInputText />
+        <label for="UnitPrice">UnitPrice$</label>
+      </span>
+      <span class="p-float-label">
+        <input id="Volume" class="inputText" [formControlName]="orderProductFormEnum.Volume" type="text" pInputText />
+        <label for="Volume">Volume</label>
+      </span>
+      <p-button type="submit" label="Add"></p-button>
+    </div>
+  </form>
+  <p-table class="table" styleClass="p-datatable-striped" [value]="ordersData" dataKey="id" editMode="row"
+    [tableStyle]="{'min-width': '30rem'}">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">{{orderFormEnum.Id}}<p-sortIcon field="id"></p-sortIcon></th>
+        <th>{{orderFormEnum.OrderType}}</th>
+        <th>{{orderFormEnum.Products}}</th>
+        <th>{{orderFormEnum.Organization}}</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-order let-editing="editing" let-ri="rowIndex">
+      <tr [formGroup]="orderEditFormGroup" [pEditableRow]="order">
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <label>{{order[ orderFormEnum.Id]}}</label>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{order[orderFormEnum.Id ]}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown id="OrderType" [options]="orderTypes"
+                [formControlName]="orderFormEnum.OrderType"></p-dropdown>
+              <label for="OrderType">OrderType</label>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{order[orderFormEnum.OrderType]}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <div class="table-Container">
+                <p-table [value]="currentProductsList" [tableStyle]="{'min-width': '5rem'}">
+                  <ng-template pTemplate="header">
+      <tr>
+        <th>{{orderProductFormEnum.Id}}</th>
+        <th>{{orderProductFormEnum.UnitPrice}}</th>
+        <th>{{orderProductFormEnum.Volume}}</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-ri="rowIndex" let-product>
+      <tr>
+        <td>{{product[orderProductFormEnum.Id]}}</td>
+        <td>{{product[orderProductFormEnum.UnitPrice]}}</td>
+        <td>{{product[orderProductFormEnum.Volume]}}</td>
+        <td>
+          <button pButton pRipple type="button" icon="pi pi-trash" (click)="onDeleteProduct(ri)"
+            class="p-button-rounded p-button-text"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+</ng-template>
+<ng-template pTemplate="output">
+  <ng-container *ngFor="let product of order[orderFormEnum.Products]">
+    <ul>
+      <li>Id:{{product[orderProductFormEnum.Id]}}</li>
+      <li>UnitPrice:{{product[orderProductFormEnum.UnitPrice]}}</li>
+      <li>Volume:{{product[orderProductFormEnum.Volume]}}</li>
+    </ul>
+  </ng-container>
+</ng-template>
+</p-cellEditor>
+</td>
+<td>
+  <p-cellEditor>
+    <ng-template pTemplate="input">
+      <p-dropdown id="OrganizationDropDown" class="dropdown" [options]="organizationsData"
+        [formControlName]="orderFormEnum.Organization" optionLabel="id" optionValue="id">
+        <ng-template let-organization pTemplate="item">
+          <div>
+            <div>Id: {{organization.id}}</div>
+            <div>Name: {{organization.name}}</div>
+            <div>OrganizationType: {{organization.organizationType}}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </ng-template>
+    <ng-template pTemplate="output">
+      {{order[orderFormEnum.Organization]}}
+    </ng-template>
+  </p-cellEditor>
+</td>
+<td>
+  <div class="flex align-items-center justify-content-center gap-2">
+    <button *ngIf="!editing && showReplace && !globalEditing && order.orderType === orderTypesEnum.BuyOrder" pButton
+      pRipple type="button" (click)="onRowReplace(order)" class="p-button-rounded p-button-text">Replace</button>
+    <button *ngIf="!editing && !globalEditing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+      (click)="onRowEditInit(order)" class="p-button-rounded p-button-text"></button>
+    <button *ngIf="!editing && !globalEditing" pButton pRipple type="button" icon="pi pi-trash"
+      (click)="onRowDelete(order)" class="p-button-rounded p-button-text"></button>
+    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave()"
+      class="p-button-rounded p-button-text p-button-success mr-2"></button>
+    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+      (click)="onRowEditCancel()" class="p-button-rounded p-button-text p-button-danger"></button>
+  </div>
+</td>
+</tr>
+</ng-template>
+</p-table>
+</div>

@@ -16,6 +16,7 @@ export class OrdersEffect {
       map((orders: Order[]) =>
         getOrdersSuccess({ orders }),
       ),
+      tap(console.log),
       catchError(() => of(getOrdersError())),
     ),
   );

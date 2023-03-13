@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5vh;
+}
+
+.body {
+  display: flex;
+  flex-direction: row;
+  column-gap: 5vh;
+
+  .table-Container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

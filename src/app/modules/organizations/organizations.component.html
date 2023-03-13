@@ -19,7 +19,7 @@
       <p-multiSelect id="productsDropdown" class="dropdown" [options]="productsData"
         [formControlName]="organizationFormEnum.Products" optionLabel="category" optionValue="id">
         <ng-template let-product pTemplate="item">
-          <div class="country-item">
+          <div>
             <div>Id: {{product.id}}</div>
             <div>Category: {{product.category}}</div>
             <div>Variety: {{product.variety}}</div>
@@ -33,7 +33,7 @@
       <p-multiSelect id="ordersDropDown" class="dropdown" [options]="ordersData"
         [formControlName]="organizationFormEnum.Orders" optionLabel="category" optionValue="id">
         <ng-template let-Order pTemplate="item">
-          <div class="country-item">
+          <div>
             <div>Id: {{Order.id}}</div>
             <div>Category: {{Order.orderType}}</div>
           </div>
@@ -85,7 +85,7 @@
             <p-multiSelect id="productsDropdown" class="dropdown" [options]="productsData"
               [formControlName]="organizationFormEnum.Products" optionLabel="category" optionValue="id">
               <ng-template let-product pTemplate="item">
-                <div class="country-item">
+                <div>
                   <div>Id: {{product.id}}</div>
                   <div>Category: {{product.category}}</div>
                   <div>Variety: {{product.variety}}</div>
@@ -105,7 +105,7 @@
             <p-multiSelect id="ordersDropDown" class="dropdown" [options]="ordersData"
               [formControlName]="organizationFormEnum.Orders" optionLabel="category" optionValue="id">
               <ng-template let-Order pTemplate="item">
-                <div class="country-item">
+                <div>
                   <div>Id: {{Order.id}}</div>
                   <div>Category: {{Order.orderType}}</div>
                 </div>
@@ -130,10 +130,10 @@
       </td>
       <td>
         <div class="flex align-items-center justify-content-center gap-2">
-          <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+          <button *ngIf="!editing && !globalEditing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
             (click)="onRowEditInit(organization)" class="p-button-rounded p-button-text"></button>
-          <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-trash" (click)="onRowDelete(organization)"
-            class="p-button-rounded p-button-text"></button>
+          <button *ngIf="!editing && !globalEditing" pButton pRipple type="button" icon="pi pi-trash"
+            (click)="onRowDelete(organization)" class="p-button-rounded p-button-text"></button>
           <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
             (click)="onRowEditSave()" class="p-button-rounded p-button-text p-button-success mr-2"></button>
           <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
