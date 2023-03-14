@@ -90,7 +90,9 @@ the project has *required requirements* and added *Extra Features* that have bee
 ```
     
 ### Application Level:
+
 - Deployed the application on GitHub. [https://github.com/Bloodlesss/management-system](https://github.com/Bloodlesss/management-system).
+- Deployed the application on Netlify. [https://jamal-management-system.netlify.app](https://jamal-management-system.netlify.app/)
 - Used [primeNg](https://www.primefaces.org/primeng) library that is built on angular material to be able to provide a wider variaty of choices in design.
 - Added a loader to compensate the  gap in time between sending and recieving the HttpRequests.
 
