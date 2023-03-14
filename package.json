@@ -1,5 +1,5 @@
 {
-  "name": "indexed-db-tester",
+  "name": "management-system",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

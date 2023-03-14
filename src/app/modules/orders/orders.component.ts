@@ -82,7 +82,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
   initializeForm(): void {
     this.orderProductFormGroup = this.formBuilder.group({
-      [this.orderProductFormEnum.Id]: ['', [Validators.required]],
+      [this.orderProductFormEnum.Id]: [0, [Validators.required]],
       [this.orderProductFormEnum.Volume]: ['', [Validators.required]],
       [this.orderProductFormEnum.UnitPrice]: ['', [Validators.required]],
     });
