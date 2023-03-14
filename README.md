@@ -10,17 +10,55 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
+### Install Angular/cli
+
+To install `angular/cli` we are using version `~15.2.2`, run
+```shell
+  npm install -g @angular/cli@~15.2.2
+```
+
+## Build the environment
+
+```shell
+  npm install
+  ng build
+```
+
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test --code-coverage` to execute the unit tests via [Karma](https://karma-runner.github.io), you can also check [Angular Testing](https://angular.io/guide/testing)
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+# Structure
+
+The project has been split into 2 major parts: shared and modules and a core
+
+##Core
+the core of the application is the app component with its accessories, from store, module, routingModule.
+    -store:holds all the intial getter such as reducers, states,tokens, and initializes the reducerToken that needs to be provided in the app module
+    -module file: loads all the modules and files that will be used in this application,and loads indexedDB and NGRX stores and effects
+    -routingModule: implements lazy loading on modules, and stand alone components
+    
+## Shared
+  the shared directory includes all the folders ***Components,Enums, Models, Services*** that are deemed to be used by multiple components and the general of the application, it is worth noting that it contains interfaces even basically anything that is considered immutable, or static and would not be changed by any component that might use it, it also holds the interface of the ActionTypeCreator to help facilitate the code for the stores later when strongly typing the data structure.
+  
+  ## Modules
+
+The Modules usually contain all the major players of the application. the structure of the modules directory is built upon *lazy loading* and thus each stand alone part of the application will work seperatly and will load as such, the shared directory can be used by all these parts.
+
+As for our application we only have 4 part called *LandingPage*,*Orders*,*Organizations*,*PRoducts* uses the following structure:
+
+    -store:holds all the files for the ngrx state management, such as actions,effects,facade,reducers,selectors,state each having its own functionality
+    -shared:these are the files such as enums and models shared by all other files and in other cases sub-components(though since this is a small project i never needed to implement atom pure components to handle small specific functionality  ) .
+    -module file: loads all the modules and files that will be used in this container
+    -routing module file: implements the lazy loading and adds the routes for the containers.
 
 ## Further help
 
