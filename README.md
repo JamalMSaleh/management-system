@@ -40,11 +40,13 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 The project has been split into 2 major parts: shared and modules and a core
 
-##Core
+## Core
 the core of the application is the app component with its accessories, from store, module, routingModule.
+    -component: the actual component that holds the routeroutlet 
     -store:holds all the intial getter such as reducers, states,tokens, and initializes the reducerToken that needs to be provided in the app module
     -module file: loads all the modules and files that will be used in this application,and loads indexedDB and NGRX stores and effects
     -routingModule: implements lazy loading on modules, and stand alone components
+    -style.scss: holds the theme of the application and any global styling needed to be implemented or any repetitive styling that can be extended by other scss files
     
 ## Shared
   the shared directory includes all the folders ***Components,Enums, Models, Services*** that are deemed to be used by multiple components and the general of the application, it is worth noting that it contains interfaces even basically anything that is considered immutable, or static and would not be changed by any component that might use it, it also holds the interface of the ActionTypeCreator to help facilitate the code for the stores later when strongly typing the data structure.
@@ -60,6 +62,23 @@ As for our application we only have 4 part called *LandingPage*,*Orders*,*Organi
     -module file: loads all the modules and files that will be used in this container
     -routing module file: implements the lazy loading and adds the routes for the containers.
 
+
+# Features
+
+the project has *required requirements* and added *Extra Features* that have been implemented.
+
+## Required Features:
+
+### Build A Management System.
+
+    -Product Management:A Product is an item that can be sold, with 3 fields Category, vairety,Packaging.
+    -Order Management
+      There are two types of orders:
+        A buy order is an order where FarmLend is the buyer, and the user is the seller,
+        A sell order is an order where FarmLend is the seller, and the user is the buyer.
+     An order has the following characteristics:Type,References,Products,Organization
+    -Organization Management: An organization has the following characteristics:Name,Type,Products,Orders
+    
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
