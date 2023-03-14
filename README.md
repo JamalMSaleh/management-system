@@ -78,7 +78,44 @@ the project has *required requirements* and added *Extra Features* that have bee
         A sell order is an order where FarmLend is the seller, and the user is the buyer.
      An order has the following characteristics:Type,References,Products,Organization
     -Organization Management: An organization has the following characteristics:Name,Type,Products,Orders
+### Application Specifications:    
+```shell
+    -User can Perform all CRUD operations on all the above management systems, and the system will manage the data using NGRX
+    -while the user is creating a new sell order you can reference an old buy order to replace all the data before it is saved.  
+    -All requests are saved on IndexedDB, and all the CRUD operations are sent to the localDB.
+```
+### General Specification:
+```shell
+   -Used Linters for both style files and javascript files
+```
     
+### Application Level:
+- Deployed the application on GitHub. [https://github.com/Bloodlesss/management-system](https://github.com/Bloodlesss/management-system).
+- Used [primeNg](https://www.primefaces.org/primeng) library that is built on angular material to be able to provide a wider variaty of choices in design.
+- Added a loader to compensate the  gap in time between sending and recieving the HttpRequests.
+
+### Technical Level:
+- Although the application is only a couple of small module I have worked considering that the app is gonna be recieving new and advanced features thus used **Lazy Loading** and some of the components use the new **Stand Alone** methodology. 
+- UNit Tests using Karma covering products Management.
+
+## Limitations and Workarounds
+### IndexedDB
+IndexedDB is a powerful browser-based storage mechanism that allows you to store structured data, including JavaScript objects. However, it has some limitations that may affect your application's performance or functionality. One of these limitations is that IndexedDB doesn't support partial updates, bulk updates, or cascading updates.
+
+To work around these issues, I implemented some restrictions in our Angular application. For example, I blocked the delete function for products that are associated with an organization or order. Similarly, I blocked the delete function for organizations that are associated with an order. This helps to ensure that no data is lost or corrupted during the deletion process.
+
+### Future Improvements
+My Angular application has some areas that could be improved in the future. For example, I am currently using a workaround to handle the connections between orders and organizations, due to the limitations of IndexedDB. However, a possible solution is to delete the IndexedDB table on each add or update of either table, and handle the state purely from ngrx stores.
+While I believe that this approach would be a suitable solution I would not advice of it in a real application as this relationship should be handled by the back-end API, this would be more robust and scalable in the long run.
+### Improving the Project Structure
+While I managed the folder structure of our Angular application quite well,I  recognize that there's room for improvement. In particular, I plan to turn the reused table and forms into pure components in the future.
+
+By doing this, I'll make it easier and cleaner to use these components throughout our application. This will also help to reduce the size and complexity of our codebase, making it easier to maintain and update in the long run.
+
+However, due to time constraints, I had to merge these components into the parent module for now. I plan to revisit this issue in a future release and refactor my code accordingly.
+
+
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
