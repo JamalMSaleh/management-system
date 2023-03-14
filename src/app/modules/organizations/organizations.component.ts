@@ -10,6 +10,8 @@ import { OrganizationType } from './shared/enums/organization-type';
 import { Organization, CreateOrganization } from './shared/model/organization.model';
 import { OrganizationsFacade } from './store/organizations.facade';
 import { Order, Product as OrderProduct } from '../orders/shared/model/order.model';
+import { ToastService } from 'src/app/services/toast.service';
+import { ErrorMessage } from './shared/enums/error-messages.enum';
 
 @Component({
   selector: 'odd-organizations',
@@ -41,6 +43,7 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
     private readonly productFacade: ProductFacade,
     private readonly ordersFacade: OrdersFacade,
     private readonly ref: ChangeDetectorRef,
+    private readonly toastService: ToastService,
   ) { }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
@@ -110,12 +113,16 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   }
   onRowDelete(org: Organization): void {
     this.globalEditing = false;
-    // const orderState: boolean = this.ordersData.some((order: Order) => (order.products.some((product: OrderProduct) => product.id === id)));
-    // if (organizationState || orderState) {
-    //   this.toastService.addWarnMessage(ErrorMessage.ProductNotDeletable);
-    //   return false;
-    // }
-    // return true;
-    this.organizationFacade.deleteOrganization(<number>org.id);
+    if (this.checkDeleteDependencyValidity(<number>org.id)) {
+      this.organizationFacade.deleteOrganization(<number>org.id);
+    }
+  }
+  checkDeleteDependencyValidity(id: number): boolean {
+    const orderState: boolean = this.ordersData.some((order: Order) => (order.organization === id));
+    if (orderState) {
+      this.toastService.addWarnMessage(ErrorMessage.OrganizationNotDeletable);
+      return false;
+    }
+    return true;
   }
 }

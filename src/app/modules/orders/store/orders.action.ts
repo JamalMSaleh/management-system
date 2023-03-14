@@ -7,13 +7,6 @@ export const getOrders: ActionCreatorType<ActionTypes.GetOrders> = createAction(
 export const getOrdersSuccess: ActionCreatorPropsType<ActionTypes.GetOrdersSuccess, PropsOrders> = createAction(ActionTypes.GetOrdersSuccess, props<PropsOrders>());
 export const getOrdersError: ActionCreatorType<ActionTypes.GetOrdersError> = createAction(ActionTypes.GetOrdersError);
 
-export const getOrder: ActionCreatorPropsType<ActionTypes.GetOrder, { id: number }> = createAction(ActionTypes.GetOrder, props<{ id: number }>());
-export const getOrderSuccess: ActionCreatorPropsType<ActionTypes.GetOrderSuccess, Order> = createAction(
-  ActionTypes.GetOrderSuccess,
-  props<Order>(),
-);
-export const getOrderError: ActionCreatorType<ActionTypes.GetOrderError> = createAction(ActionTypes.GetOrderError);
-
 export const updateOrder: ActionCreatorPropsType<ActionTypes.UpdateOrder, Order> = createAction(ActionTypes.UpdateOrder, props<Order>());
 export const updateOrderSuccess: ActionCreatorPropsType<ActionTypes.UpdateOrderSuccess, Order> = createAction(
   ActionTypes.UpdateOrderSuccess,

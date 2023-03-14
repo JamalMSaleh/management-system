@@ -1,8 +1,4 @@
 export enum ActionTypes {
-  GetOrder = '[Order] Get Order',
-  GetOrderSuccess = '[Order] Get Order Success',
-  GetOrderError = '[Order] Get Order Error',
-
   GetOrders = '[Order] Get Orders',
   GetOrdersSuccess = '[Order] Get Orders Success',
   GetOrdersError = '[Order] Get Orders Error',

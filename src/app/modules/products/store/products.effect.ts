@@ -1,12 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, CreateEffectMetadata, ofType } from "@ngrx/effects";
-import { MessageService } from "primeng/api";
 import { switchMap, map, catchError, of, tap } from "rxjs";
 import { ProductService } from "src/app/services/products.service";
 import { ToastService } from "src/app/services/toast.service";
 import { ActionTypes } from "../shared/enums/action-types";
 import { Product } from "../shared/model/products.model";
-import { getProducts, getProductsSuccess, getProductsError, getProduct, getProductSuccess, getProductError, postProduct, postProductError, updateProduct, updateProductSuccess, updateProductError, deleteProduct, deleteProductSuccess, deleteProductError, postProductSuccess } from "./products.action";
+import { getProducts, getProductsSuccess, getProductsError, postProduct, postProductError, updateProduct, updateProductSuccess, updateProductError, deleteProduct, deleteProductSuccess, deleteProductError, postProductSuccess } from "./products.action";
 
 @Injectable()
 export class ProductsEffect {
@@ -30,26 +29,7 @@ export class ProductsEffect {
     ),
     { dispatch: false },
   );
-  getProductByKey$: CreateEffectMetadata = createEffect(() =>
-    this.actions$.pipe(
-      ofType(getProduct),
-      switchMap((action: { id: number }) => this.productService.getProductByKey(action.id)),
-      map((element: Product) => getProductSuccess(element)),
-      tap(() => {
-        this.toastService.addSuccessMessage(ActionTypes.GetProductSuccess);
-      }),
-      catchError(() => of(getProductError())),
-    ),
-  );
-  getProductByKeyError$: CreateEffectMetadata = createEffect(() =>
-    this.actions$.pipe(
-      ofType(getProductError),
-      tap(() => {
-        this.toastService.addErrorMessage(ActionTypes.GetProductError);
-      }),
-    ),
-    { dispatch: false },
-  );
+
   addProduct$: CreateEffectMetadata = createEffect(() =>
     this.actions$.pipe(
       ofType(postProduct),

@@ -9,7 +9,7 @@ export const productsInitialState: ProductsState = {
 export const ProductsReducer: ActionReducer<ProductsState, Action> =
   createReducer(
     productsInitialState,
-    on(getProducts, (state: ProductsState) => ({
+    on(getProducts, updateProduct, deleteProduct, (state: ProductsState) => ({
       ...state,
       pending: true,
     })),
@@ -17,17 +17,6 @@ export const ProductsReducer: ActionReducer<ProductsState, Action> =
       ...state,
       products,
       pending: false,
-    })),
-    on(postProduct, (state: ProductsState) => (
-      { ...state, pending: true }
-    )),
-    on(postProductSuccess, (state: ProductsState, product: Product) => {
-      const newProductsState: Product[] = [...state.products, product];
-      return { ...state, products: newProductsState, pending: false };
-    }),
-    on(updateProduct, (state: ProductsState) => ({
-      ...state,
-      pending: true,
     })),
     on(updateProductSuccess, (state: ProductsState, product: Product) => {
       const newProductsState: Product[] = state.products.filter(
@@ -37,7 +26,6 @@ export const ProductsReducer: ActionReducer<ProductsState, Action> =
       const newState: ProductsState = { ...state, products: newProductsState, pending: false };
       return newState;
     }),
-    on(deleteProduct, (state: ProductsState) => ({ ...state, pending: true })),
     on(deleteProductSuccess, (state: ProductsState, { products }: PropsProducts) => ({
       ...state,
       products,

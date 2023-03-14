@@ -41,13 +41,3 @@ export const deleteProductSuccess: ActionCreatorPropsType<ActionTypes.DeleteProd
   props<PropsProducts>(),
 );
 export const deleteProductError: ActionCreatorType<ActionTypes.DeleteProductError> = createAction(ActionTypes.DeleteProductError);
-
-export const getProduct: ActionCreatorPropsType<ActionTypes.GetProduct, Id> = createAction(
-  ActionTypes.GetProduct,
-  props<Id>(),
-);
-export const getProductSuccess: ActionCreatorPropsType<ActionTypes.GetProductSuccess, Product> = createAction(
-  ActionTypes.GetProductSuccess,
-  props<Product>(),
-);
-export const getProductError: ActionCreatorType<ActionTypes.GetProductError> = createAction(ActionTypes.GetProductError);

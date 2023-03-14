@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { Order, CreateOrder } from "../shared/model/order.model";
-import { deleteOrder, getOrder, getOrders, postOrder, updateOrder } from "./orders.action";
+import { deleteOrder, getOrders, postOrder, updateOrder } from "./orders.action";
 import { selectOrders, selectOrdersPending } from "./orders.selector";
 @Injectable(
   {
@@ -17,9 +17,6 @@ export class OrdersFacade {
 
   public getOrders(): void {
     this.store.dispatch(getOrders());
-  }
-  public getOrder(id: number): void {
-    this.store.dispatch(getOrder({ id }));
   }
   public deleteOrder(id: number): void {
     this.store.dispatch(deleteOrder({ id }));
