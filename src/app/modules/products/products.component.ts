@@ -56,7 +56,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   initializeSubscriptions(): void {
     this.subscriptions.add(this.products$.subscribe((products?: Product[]) => {
       this.productsData = products !== undefined ? [...products] : [];
-      console.log(this.productsData);
       this.ref.markForCheck();
     }));
     this.subscriptions.add(this.orders$.pipe(

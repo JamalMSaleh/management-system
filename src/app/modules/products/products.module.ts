@@ -11,7 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { ProductsEffect } from './store/products.effect';
-import { ProductsReducer } from './store/products.reducer';
+import { productsReducer } from './store/products.reducer';
 import { ProductFacade } from './store/products.facade';
 import { FormsModule } from '@angular/forms';
 import { ProgressBarModule } from 'primeng/progressbar';
@@ -34,7 +34,7 @@ import { OrganizationsReducer } from '../organizations/store/organizations.reduc
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
-    StoreModule.forFeature('Products', ProductsReducer),
+    StoreModule.forFeature('Products', productsReducer),
     StoreModule.forFeature('Organizations', OrganizationsReducer),
     StoreModule.forFeature('Orders', OrdersReducer),
     EffectsModule.forFeature([ProductsEffect, OrganizationsEffect, OrdersEffect]),

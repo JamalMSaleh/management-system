@@ -15,7 +15,7 @@ import { TableModule } from 'primeng/table';
 import { OrganizationsEffect } from '../organizations/store/organizations.effect';
 import { OrganizationsReducer } from '../organizations/store/organizations.reducer';
 import { ProductsEffect } from '../products/store/products.effect';
-import { ProductsReducer } from '../products/store/products.reducer';
+import { productsReducer } from '../products/store/products.reducer';
 import { OrdersEffect } from './store/orders.effect';
 import { OrdersReducer } from './store/orders.reducer';
 import { OrganizationsFacade } from '../organizations/store/organizations.facade';
@@ -37,7 +37,7 @@ import { OrdersFacade } from './store/orders.facade';
     TableModule,
     CommonModule,
     StoreModule.forFeature('Organizations', OrganizationsReducer),
-    StoreModule.forFeature('Products', ProductsReducer),
+    StoreModule.forFeature('Products', productsReducer),
     StoreModule.forFeature('Orders', OrdersReducer),
     EffectsModule.forFeature([OrganizationsEffect, ProductsEffect, OrdersEffect]),
     OrdersRoutingModule,

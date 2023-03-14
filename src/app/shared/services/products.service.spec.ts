@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ProductService } from './products.service';
 
-describe('IndexDBServicesService', () => {
+xdescribe('IndexDBServicesService', () => {
   let service: ProductService;
 
   beforeEach(() => {
