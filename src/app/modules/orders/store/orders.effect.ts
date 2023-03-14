@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, CreateEffectMetadata, ofType } from "@ngrx/effects";
 import { switchMap, map, catchError, of, tap } from "rxjs";
-import { OrdersService } from "src/app/services/orders.service";
-import { ToastService } from "src/app/services/toast.service";
+import { OrdersService } from "src/app/shared/services/orders.service";
+import { ToastService } from "src/app/shared/services/toast.service";
 import { ActionTypes } from "../shared/enums/action-types.enum";
 import { Order, CreateOrder } from "../shared/model/order.model";
 import { getOrders, getOrdersSuccess, getOrdersError, postOrder, postOrderSuccess, postOrderError, updateOrder, updateOrderSuccess, updateOrderError, deleteOrder, deleteOrderSuccess, deleteOrderError } from "./orders.action";

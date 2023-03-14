@@ -9,7 +9,7 @@ export const productsInitialState: ProductsState = {
 export const ProductsReducer: ActionReducer<ProductsState, Action> =
   createReducer(
     productsInitialState,
-    on(getProducts, updateProduct, deleteProduct, (state: ProductsState) => ({
+    on(getProducts, updateProduct, deleteProduct, postProduct, (state: ProductsState) => ({
       ...state,
       pending: true,
     })),
@@ -31,4 +31,8 @@ export const ProductsReducer: ActionReducer<ProductsState, Action> =
       products,
       pending: false,
     })),
+    on(postProductSuccess, (state: ProductsState, product: Product) => {
+      const newProductsState: Product[] = [...state.products, product];
+      return { ...state, products: newProductsState, pending: false };
+    }),
   );

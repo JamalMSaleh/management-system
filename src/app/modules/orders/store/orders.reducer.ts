@@ -10,7 +10,7 @@ export const ordersInitialState: OrdersState = {
 export const OrdersReducer: ActionReducer<OrdersState, Action> =
   createReducer(
     ordersInitialState,
-    on(getOrders, updateOrder, deleteOrder, (state: OrdersState) => ({
+    on(getOrders, updateOrder, deleteOrder, postOrder, (state: OrdersState) => ({
       ...state,
       pending: true,
     })),
@@ -19,9 +19,6 @@ export const OrdersReducer: ActionReducer<OrdersState, Action> =
       orders,
       pending: false,
     })),
-    on(postOrder, (state: OrdersState) => (
-      { ...state, pending: true }
-    )),
     on(postOrderSuccess, (state: OrdersState, order: Order) => {
       const newOrdersState: Order[] = [...state.orders, order];
       return { ...state, orders: newOrdersState, pending: false };

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { combineLatest, distinctUntilChanged, filter, map, Observable, Subscription } from 'rxjs';
-import { ToastService } from 'src/app/services/toast.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 import { PagesName } from 'src/app/shared/enums/pages-name';
 import { OrganizationType } from '../organizations/shared/enums/organization-type';
 import { Organization } from '../organizations/shared/model/organization.model';

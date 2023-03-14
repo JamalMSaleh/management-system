@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Observable } from 'rxjs';
 import { DbTableNames } from 'src/database-config';
-import { CreateOrganization, Organization } from '../modules/organizations/shared/model/organization.model';
+import { CreateOrganization, Organization } from '../../modules/organizations/shared/model/organization.model';
 
 @Injectable({
   providedIn: 'root',

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Observable } from 'rxjs';
 import { DbTableNames } from 'src/database-config';
-import { CreateOrder, Order } from '../modules/orders/shared/model/order.model';
+import { CreateOrder, Order } from '../../modules/orders/shared/model/order.model';
 
 @Injectable({
   providedIn: 'root',

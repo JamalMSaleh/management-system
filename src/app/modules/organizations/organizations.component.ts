@@ -10,7 +10,7 @@ import { OrganizationType } from './shared/enums/organization-type';
 import { Organization, CreateOrganization } from './shared/model/organization.model';
 import { OrganizationsFacade } from './store/organizations.facade';
 import { Order, Product as OrderProduct } from '../orders/shared/model/order.model';
-import { ToastService } from 'src/app/services/toast.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 import { ErrorMessage } from './shared/enums/error-messages.enum';
 
 @Component({

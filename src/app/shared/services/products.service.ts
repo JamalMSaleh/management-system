@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Observable } from 'rxjs';
-import { CreateProduct, Product } from '../modules/products/shared/model/products.model';
+import { CreateProduct, Product } from '../../modules/products/shared/model/products.model';
 
 @Injectable({
   providedIn: 'root',
