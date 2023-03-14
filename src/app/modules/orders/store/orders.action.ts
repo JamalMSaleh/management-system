@@ -1,6 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 import { ActionCreatorPropsType, ActionCreatorType } from "src/app/shared/types/action.types";
-import { ActionTypes } from "../shared/enums/action-types";
+import { ActionTypes } from "../shared/enums/action-types.enum";
 import { CreateOrder, Order, PropsOrders } from "../shared/model/order.model";
 
 export const getOrders: ActionCreatorType<ActionTypes.GetOrders> = createAction(ActionTypes.GetOrders);

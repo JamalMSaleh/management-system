@@ -57,18 +57,7 @@ export class OrganizationsEffect {
       catchError(() => of(postOrganizationError())),
     ),
   );
-  // addOrganizationSuccess$: CreateEffectMetadata = createEffect(() => this.actions$.pipe(
-  //   ofType(postOrganizationSuccess),
-  //   tap(() => {
-  //     this.toastService.addSuccessMessage(ActionTypes.PostOrganizationSuccess);
-  //   }),
-  //   map((organization: Organization) => organization.orders),
-  //   map((orders: number[]) => {
-  //     orders.map((id: number) => {
-  //       this.orderFacade.(id);
-  //     });
-  //   }),
-  // ));
+
   addOrganizationError$: CreateEffectMetadata = createEffect(() =>
     this.actions$.pipe(
       ofType(getOrganizationsError),

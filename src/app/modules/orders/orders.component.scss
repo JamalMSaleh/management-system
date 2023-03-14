@@ -1,17 +1,16 @@
+@import '../../../styles.scss';
+
 :host {
-  display: flex;
-  flex-direction: column;
+  @extend .flex-column;
   row-gap: 5vh;
 }
 
 .body {
-  display: flex;
-  flex-direction: row;
+  @extend .flex-row;
   column-gap: 5vh;
 
   .table-Container {
-    display: flex;
-    flex-direction: column;
+    @extend .flex-column;
     justify-content: center;
     align-items: center;
   }

@@ -1,5 +1,6 @@
 @import '../../../styles.scss';
-.container{
+
+.container {
   @extend .flex-row;
   justify-content: center;
   align-items: center;

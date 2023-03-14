@@ -4,7 +4,7 @@ import { switchMap, map, catchError, of, tap } from "rxjs";
 import { OrdersService } from "src/app/services/orders.service";
 import { ToastService } from "src/app/services/toast.service";
 import { updateOrganization } from "../../organizations/store/organizations.action";
-import { ActionTypes } from "../shared/enums/action-types";
+import { ActionTypes } from "../shared/enums/action-types.enum";
 import { Order, CreateOrder } from "../shared/model/order.model";
 import { getOrders, getOrdersSuccess, getOrdersError, getOrder, getOrderSuccess, getOrderError, postOrder, postOrderSuccess, postOrderError, updateOrder, updateOrderSuccess, updateOrderError, deleteOrder, deleteOrderSuccess, deleteOrderError } from "./orders.action";
 @Injectable()

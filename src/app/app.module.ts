@@ -11,12 +11,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { getInitialState, reducerToken, REDUCER_PROVIDER } from './app.store';
 import { ToastModule } from 'primeng/toast';
+import { LandingPageComponent } from './modules/landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
+    LandingPageComponent,
     BrowserModule,
     AppRoutingModule,
     NgxIndexedDBModule.forRoot(dbConfig),

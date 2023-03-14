@@ -10,7 +10,7 @@ export const ordersInitialState: OrdersState = {
 export const OrdersReducer: ActionReducer<OrdersState, Action> =
   createReducer(
     ordersInitialState,
-    on(getOrders, (state: OrdersState) => ({
+    on(getOrders, updateOrder, deleteOrder, (state: OrdersState) => ({
       ...state,
       pending: true,
     })),
@@ -26,10 +26,7 @@ export const OrdersReducer: ActionReducer<OrdersState, Action> =
       const newOrdersState: Order[] = [...state.orders, order];
       return { ...state, orders: newOrdersState, pending: false };
     }),
-    on(updateOrder, (state: OrdersState) => ({
-      ...state,
-      pending: true,
-    })),
+
     on(updateOrderSuccess, (state: OrdersState, order: Order) => {
       const newOrdersState: Order[] = state.orders.filter(
         (_: Order) => _.id !== order.id,
@@ -38,8 +35,6 @@ export const OrdersReducer: ActionReducer<OrdersState, Action> =
       const newState: OrdersState = { ...state, orders: newOrdersState, pending: false };
       return newState;
     }),
-    on(deleteOrder, (state: OrdersState) => ({ ...state, pending: true })),
-
     on(deleteOrderSuccess, (state: OrdersState, { orders }: PropsOrders) => ({
       ...state,
       orders,

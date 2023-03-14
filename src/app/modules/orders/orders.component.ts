@@ -8,9 +8,9 @@ import { Organization } from '../organizations/shared/model/organization.model';
 import { OrganizationsFacade } from '../organizations/store/organizations.facade';
 import { Product } from '../products/shared/model/products.model';
 import { ProductFacade } from '../products/store/products.facade';
-import { ErrorMessage } from './shared/enums/error-message';
-import { OrderForm, OrderProductForm } from './shared/enums/order-form';
-import { OrderTypes } from './shared/enums/order-types';
+import { ErrorMessage } from './shared/enums/error-message.enum';
+import { OrderForm, OrderProductForm } from './shared/enums/order-form.enum';
+import { OrderTypes } from './shared/enums/order-types.enum';
 import { Product as OrderProduct, Order, CreateOrder } from './shared/model/order.model';
 import { OrdersFacade } from './store/orders.facade';
 
@@ -23,18 +23,18 @@ import { OrdersFacade } from './store/orders.facade';
 export class OrdersComponent implements OnInit, OnDestroy {
   orderFormEnum: typeof OrderForm = OrderForm;
   orderProductFormEnum: typeof OrderProductForm = OrderProductForm;
+  pageNameEnum: typeof PagesName = PagesName;
   products$: Observable<Product[]> = this.productFacade.selectProducts$;
   organizations$: Observable<Organization[]> = this.organizationFacade.selectOrganizations$;
   orders$: Observable<Order[]> = this.ordersFacade.selectOrders$;
   pendingOrganization$: Observable<boolean> = this.organizationFacade.selectOrganizationsPending$;
   pendingOrder$: Observable<boolean> = this.ordersFacade.selectOrdersPending$;
   pendingProduct$: Observable<boolean> = this.productFacade.selectProductsPending$;
-  pageNameEnum: typeof PagesName = PagesName;
   orderFormGroup!: FormGroup;
   orderEditFormGroup!: FormGroup;
   orderProductFormGroup!: FormGroup;
   subscriptions: Subscription = new Subscription();
-  orderTypes: string[] = [OrderTypes.BuyOrder, OrderTypes.SellOrder];
+  orderTypes: string[] = [OrderTypes.Buy, OrderTypes.Sell];
   organizationsData: Organization[] = [];
   productsData: Product[] = [];
   pendingState: Observable<boolean> = new Observable();
@@ -88,7 +88,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     });
     this.orderFormGroup = this.formBuilder.group({
       [this.orderFormEnum.Organization]: ['', []],
-      [this.orderFormEnum.OrderType]: [OrderTypes.BuyOrder, [Validators.required]],
+      [this.orderFormEnum.OrderType]: [OrderTypes.Buy, [Validators.required]],
     });
     this.orderEditFormGroup = this.formBuilder.group({
       [this.orderFormEnum.Id]: ['', [Validators.required]],
@@ -131,11 +131,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.orderEditFormGroup.reset();
   }
   onRowDelete(order: Product): void {
-    // if (this.checkDeleteDependencyValidity(<number>order.id)) {
     this.globalEditing = false;
     this.currentProductsList = [];
     this.ordersFacade.deleteOrder(<number>order.id);
-    // }
   }
   addProduct(): void {
     if (this.orderProductFormGroup.valid) {
@@ -151,13 +149,13 @@ export class OrdersComponent implements OnInit, OnDestroy {
   onRowReplace(order: Order): void {
     this.orderFormGroup.patchValue({
       ...order,
-      orderType: OrderTypes.SellOrder,
+      orderType: OrderTypes.Sell,
     });
     this.currentProductsList = order.products;
     this.ref.markForCheck();
   }
   onOrderTypeChange(): void {
     const order: CreateOrder = this.orderFormGroup.value;
-    this.showReplace = order.orderType === OrderTypes.SellOrder ? true : false;
+    this.showReplace = order.orderType === OrderTypes.Sell ? true : false;
   }
 }

@@ -110,7 +110,6 @@
             <ng-template pTemplate="input">
               <p-dropdown id="OrderType" [options]="orderTypes"
                 [formControlName]="orderFormEnum.OrderType"></p-dropdown>
-              <label for="OrderType">OrderType</label>
             </ng-template>
             <ng-template pTemplate="output">
               {{order[orderFormEnum.OrderType]}}
@@ -176,8 +175,8 @@
 </td>
 <td>
   <div class="flex align-items-center justify-content-center gap-2">
-    <button *ngIf="!editing && showReplace && !globalEditing && order.orderType === orderTypesEnum.BuyOrder" pButton
-      pRipple type="button" (click)="onRowReplace(order)" class="p-button-rounded p-button-text">Replace</button>
+    <button *ngIf="!editing && showReplace && !globalEditing && order.orderType === orderTypesEnum.Buy" pButton pRipple
+      type="button" (click)="onRowReplace(order)" class="p-button-rounded p-button-text">Replace</button>
     <button *ngIf="!editing && !globalEditing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
       (click)="onRowEditInit(order)" class="p-button-rounded p-button-text"></button>
     <button *ngIf="!editing && !globalEditing" pButton pRipple type="button" icon="pi pi-trash"

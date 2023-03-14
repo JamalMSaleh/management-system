@@ -20,6 +20,7 @@ import { ProductFacade } from './store/products.facade';
 })
 export class ProductsComponent implements OnInit, OnDestroy {
   productFormEnum: typeof ProductForm = ProductForm;
+  pageNameEnum: typeof PagesName = PagesName;
   products$: Observable<Product[]> = this.productFacade.selectProducts$;
   organizations$: Observable<Organization[]> = this.organizationFacade.selectOrganizations$;
   orders$: Observable<Order[]> = this.ordersFacade.selectOrders$;
@@ -33,7 +34,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   organizationsData: Organization[] = [];
   ordersData: Order[] = [];
   pendingState: Observable<boolean> = new Observable();
-  pageNameEnum: typeof PagesName = PagesName;
   globalEditing: boolean = false;
   constructor(
     private readonly formBuilder: FormBuilder,

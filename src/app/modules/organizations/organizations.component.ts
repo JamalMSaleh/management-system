@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { combineLatest, distinctUntilChanged, filter, map, Observable, Subscription } from 'rxjs';
 import { PagesName } from 'src/app/shared/enums/pages-name';
-import { Order } from '../orders/shared/model/order.model';
 import { OrdersFacade } from '../orders/store/orders.facade';
 import { Product } from '../products/shared/model/products.model';
 import { ProductFacade } from '../products/store/products.facade';
@@ -10,6 +9,7 @@ import { OrganizationForm } from './shared/enums/organization-form';
 import { OrganizationType } from './shared/enums/organization-type';
 import { Organization, CreateOrganization } from './shared/model/organization.model';
 import { OrganizationsFacade } from './store/organizations.facade';
+import { Order, Product as OrderProduct } from '../orders/shared/model/order.model';
 
 @Component({
   selector: 'odd-organizations',
@@ -110,6 +110,12 @@ export class OrganizationsComponent implements OnInit, OnDestroy {
   }
   onRowDelete(org: Organization): void {
     this.globalEditing = false;
+    // const orderState: boolean = this.ordersData.some((order: Order) => (order.products.some((product: OrderProduct) => product.id === id)));
+    // if (organizationState || orderState) {
+    //   this.toastService.addWarnMessage(ErrorMessage.ProductNotDeletable);
+    //   return false;
+    // }
+    // return true;
     this.organizationFacade.deleteOrganization(<number>org.id);
   }
 }
