@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { getInitialState, reducerToken, REDUCER_PROVIDER } from './app.store';
 import { ToastModule } from 'primeng/toast';
 import { LandingPageComponent } from './modules/landing-page/landing-page.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 @NgModule({
   declarations: [

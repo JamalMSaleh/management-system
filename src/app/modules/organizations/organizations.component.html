@@ -31,7 +31,7 @@
     </span>
     <span class="p-float-label">
       <p-multiSelect id="ordersDropDown" class="dropdown" [options]="ordersData"
-        [formControlName]="organizationFormEnum.Orders" optionLabel="category" optionValue="id">
+        [formControlName]="organizationFormEnum.Orders" optionLabel="id" optionValue="id">
         <ng-template let-Order pTemplate="item">
           <div>
             <div>Id: {{Order.id}}</div>
@@ -103,7 +103,7 @@
         <p-cellEditor>
           <ng-template pTemplate="input">
             <p-multiSelect id="ordersDropDown" class="dropdown" [options]="ordersData"
-              [formControlName]="organizationFormEnum.Orders" optionLabel="category" optionValue="id">
+              [formControlName]="organizationFormEnum.Orders" optionLabel="id" optionValue="id">
               <ng-template let-Order pTemplate="item">
                 <div>
                   <div>Id: {{Order.id}}</div>

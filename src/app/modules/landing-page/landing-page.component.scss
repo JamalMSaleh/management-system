@@ -1,5 +1,36 @@
 @import '../../../styles.scss';
 
+:host {
+  @extend .flex-column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 100px;
+}
+
+.Landing-header {
+  @extend .flex-column;
+  row-gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  color: white;
+
+  #intro p {
+    font-size: 24px;
+    line-height: 1.5;
+  }
+
+  #content h2 {
+    font-size: 32px;
+  }
+
+  #content p {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+}
+
 .container {
   @extend .flex-row;
   justify-content: center;
@@ -7,3 +38,5 @@
   column-gap: 1vh;
 
 }
+
+.footer {}

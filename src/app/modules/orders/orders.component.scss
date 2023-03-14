@@ -6,8 +6,16 @@
 }
 
 .body {
-  @extend .flex-row;
-  column-gap: 5vh;
+  @extend .flex-column;
+  row-gap: 5vh;
+  margin: -10px;
+
+  .order-forms {
+    @extend .flex-row;
+    column-gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
 
   .table-Container {
     @extend .flex-column;

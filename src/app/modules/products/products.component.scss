@@ -2,5 +2,9 @@
 
 :host {
   @extend .flex-column;
-  row-gap: 1vh;
+  row-gap: 3vh;
+}
+
+.table {
+  margin: -10px;
 }
